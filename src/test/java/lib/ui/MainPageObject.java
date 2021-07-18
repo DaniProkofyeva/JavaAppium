@@ -189,6 +189,8 @@ public class MainPageObject {
             return By.xpath(locator);
         } else if (byType.equals("id")) {
             return By.id(locator);
+        } else if (byType.equals("css")) {
+            return By.cssSelector(locator);
         } else {
             throw new IllegalArgumentException(String.format("Cannot get type of locator. Locator " + locator_with_type));
         }

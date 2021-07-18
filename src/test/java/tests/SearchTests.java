@@ -11,7 +11,7 @@ import java.util.Map;
 public class SearchTests extends CoreTestCase
 {
     @Test
-    public void testSearch() {
+    public void testSearch() throws InterruptedException {
 
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
