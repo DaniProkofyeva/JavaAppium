@@ -36,8 +36,11 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     public String getArticleTitle() {
         WebElement title_element = waitForTitleElement();
-        Platform.getInstance().isAndroid();
-        return title_element.getAttribute("text");
+        if (Platform.getInstance().isAndroid()) {
+            return title_element.getAttribute("text");
+        } else {
+            return title_element.getText();
+        }
     }
 
 
@@ -45,8 +48,11 @@ abstract public class ArticlePageObject extends MainPageObject {
     {
         if (Platform.getInstance().isAndroid()) {
             this.swipeUpToFindElement(FOOTER_ELEMENT, "Cannot find end of article", 40);
-        } else {
-            this.swipeUpTillElementAppear(FOOTER_ELEMENT, "Cannot find end of article", 40);
+        }  else {
+            this.scrollWebPageTillElementNotVisible(
+                    FOOTER_ELEMENT,
+                    "Cannot find the end of article",
+                    40);
         }
     }
 
