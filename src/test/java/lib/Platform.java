@@ -4,12 +4,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Platform {
-    private static final String PLATFORM_ANDROID = "android";
+    private static final String PLATFORM_ANDROID = "lib/ui/android";
     private static final String PLATFORM_MOBILE_WEB = "mobile_web";
     private static String APPIUM_URL = "http://127.0.0.1:4723/wd/hub";
 
@@ -62,6 +64,15 @@ public class Platform {
     }
 
     private ChromeOptions getMWChromeOptions() {
+
+        String chromeBinary = System.getProperty("webdriver.chrome.driver");
+        if (chromeBinary == null || chromeBinary.equals("")) {
+            String os = System.getProperty("os.name").toLowerCase().substring(0, 3);
+            final String driverPath = new File("src/test/resources/drivers/chromedriver").getPath();
+            chromeBinary = driverPath + (os.equals("win") ? ".exe" : "");
+            System.setProperty("webdriver.chrome.driver", chromeBinary);
+        }
+
         Map<String, Object> deviceMetrics = new HashMap<>();
         deviceMetrics.put("width", 360);
         deviceMetrics.put("height", 640);

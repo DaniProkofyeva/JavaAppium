@@ -7,7 +7,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 public class NavigationUI extends MainPageObject{
 
     private static final String
-    MY_LISTS_LINK = "xpath://android.widget.FrameLayout[@content-desc='My lists']";
+    MY_LISTS_LINK = "xpath://lib.ui.android.widget.FrameLayout[@content-desc='My lists']";
 
 
     public NavigationUI(RemoteWebDriver driver)
