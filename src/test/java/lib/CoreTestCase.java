@@ -3,12 +3,9 @@ import io.appium.java_client.AppiumDriver;
 import junit.framework.TestCase;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
 import java.time.Duration;
 
 public class CoreTestCase extends TestCase {
-
-    private static final String PLATFORM_ANDROID = "android";
 
     protected RemoteWebDriver driver;
 

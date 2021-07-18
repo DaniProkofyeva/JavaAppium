@@ -7,7 +7,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 public class NavigationUI extends MainPageObject{
 
     private static final String
-    MY_LISTS_LINK = "//android.widget.FrameLayout[@content-desc='My lists']";
+    MY_LISTS_LINK = "xpath://android.widget.FrameLayout[@content-desc='My lists']";
 
 
     public NavigationUI(RemoteWebDriver driver)
@@ -18,7 +18,7 @@ public class NavigationUI extends MainPageObject{
     public void clickMyList()
     {
         this.waitForElementAndClick(
-                By.xpath(MY_LISTS_LINK),
+                MY_LISTS_LINK,
                 "Cannot find navigation button to My list",
                 5
         );
