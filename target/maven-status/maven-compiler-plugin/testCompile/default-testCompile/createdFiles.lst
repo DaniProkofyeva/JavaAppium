@@ -1,0 +1,11 @@
+suite\TestSuite.class
+lib\ui\ArticlePageObject.class
+tests\ChangeAppConditionTests.class
+lib\ui\NavigationUI.class
+lib\ui\SearchPageObject.class
+lib\ui\MainPageObject.class
+tests\ArticleTests.class
+tests\MyListsTests.class
+lib\ui\MyListsPageObject.class
+lib\CoreTestCase.class
+tests\SearchTests.class
