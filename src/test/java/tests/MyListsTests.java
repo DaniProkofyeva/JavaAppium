@@ -1,41 +1,54 @@
 package tests;
 import lib.CoreTestCase;
-import lib.ui.ArticlePageObject;
-import lib.ui.MyListsPageObject;
-import lib.ui.NavigationUI;
-import lib.ui.SearchPageObject;
+import lib.Platform;
+import lib.ui.*;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListsPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
+
 public class MyListsTests extends CoreTestCase
 {
+    private static final String name_of_folder = "Learning programming";
+    private static final String
+            login = "ProkofevaDD",
+            password = "&UJM,ki8";
 
     @Test
-    public void testSaveFirstArticleToMyList() {
+    public void testSaveFirstArticleToMyList() throws InterruptedException {
 
-        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Java");
+        searchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
-        SearchPageObject.initSearchInput();
-        SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
+        articlePageObject.waitForTitleElement();
+        String article_title = articlePageObject.getArticleTitle();
+        if (Platform.getInstance().isAndroid()) {
+            articlePageObject.addArticleToMyList(name_of_folder);
+            articlePageObject.closeArticle();
+        } else {
+            articlePageObject.addArticleToMySavedList();
+            AuthorizationPageObject auth = new AuthorizationPageObject(driver);
+            auth.clickAuthButton();
+            auth.enterLoginData(login, password);
+            auth.submitForm();
+            articlePageObject.waitForTitleElement();
 
-        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        ArticlePageObject.waitForTitleElement();
-        String article_title = ArticlePageObject.getArticleTitle();
-        String name_of_folder = "Learning programming";
-        ArticlePageObject.addArticleToMyList(name_of_folder);
-        ArticlePageObject.closeArticle();
+            assertEquals("Cannot find search article", article_title, articlePageObject.getArticleTitle());
+            navigationUI.openNavigation();
+        }
+        navigationUI.clickMyLists();
 
-        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
-        NavigationUI.clickMyList();
+        MyListsPageObject myListsPageObject = MyListsPageObjectFactory.get(driver);
+        if (Platform.getInstance().isAndroid()) myListsPageObject.openFolderByName(name_of_folder);
 
-        MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
-        MyListsPageObject.openFolderByName(name_of_folder);
-        MyListsPageObject.swipeByArticleToDelete(article_title);
-
+        myListsPageObject.swipeByArticleToDelete(article_title);
     }
 
     @Test
@@ -43,7 +56,7 @@ public class MyListsTests extends CoreTestCase
     {
         String name_of_folder = "Learning programming";
         String first_search = "Java";
-        String first_search_substring = "Object-oriented programming language";
+        String first_search_substring = "bject-oriented programming language";
         String second_search = "JavaScript";
         String second_search_substring = "Programming language";
 

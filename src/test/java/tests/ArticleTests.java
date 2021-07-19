@@ -44,7 +44,7 @@ public class ArticleTests extends CoreTestCase
 
 
     @Test
-    public void testArticleHasTitle() throws InterruptedException {
+    public void assertArticleTitlePresence() throws InterruptedException {
 
         String search_line = "Java";
         String substring = "Object-oriented programming language";
@@ -55,7 +55,7 @@ public class ArticleTests extends CoreTestCase
         SearchPageObject.clickByArticleWithSubstring(substring);
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        ArticlePageObject.assertArticleHasTitle();
+        ArticlePageObject.assertArticleTitlePresence();
 
     }
 
