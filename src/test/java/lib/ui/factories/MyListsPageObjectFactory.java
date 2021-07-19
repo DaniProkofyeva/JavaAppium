@@ -1,5 +1,4 @@
 package lib.ui.factories;
-
 import lib.Platform;
 import lib.ui.MyListsPageObject;
 import lib.ui.android.AndroidMyListsPageObject;

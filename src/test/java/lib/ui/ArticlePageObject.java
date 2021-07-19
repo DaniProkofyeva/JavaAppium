@@ -2,7 +2,6 @@ package lib.ui;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import lib.Platform;
-
 import java.util.List;
 
 abstract public class ArticlePageObject extends MainPageObject {
