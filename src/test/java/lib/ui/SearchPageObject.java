@@ -75,17 +75,20 @@ abstract public class SearchPageObject extends MainPageObject
 
 
     public void waitForClickSearchButton() {
-        Platform.getInstance().isAndroid();
+        if (Platform.getInstance().isAndroid()) {
+
             this.waitForElementAndClick(
                     SEARCH_BUTTON,
                     "Cannot find Search button",
                     20
             );
-        this.waitForElementAndClick(
-                SEARCH_INIT_ELEMENT,
-                "Cannot find Search button",
-                20
-        );
+        } else {
+            this.waitForElementAndClick(
+                    SEARCH_INIT_ELEMENT,
+                    "Cannot find Search button",
+                    20
+            );
+        }
     }
 
 
@@ -228,5 +231,14 @@ abstract public class SearchPageObject extends MainPageObject
 
     public Map<String, String> setExpectedMapOfArticlesWithTitleAndDescription(List<String> article_titles, List<String> article_descriptions) {
         return IntStream.range(0, article_titles.size()).boxed().collect(Collectors.toMap(article_titles::get, article_descriptions::get, (a, b) -> b));
+    }
+
+    public void searchByValue(String searchLine) {
+        initSearchInput();
+        typeSearchLine(searchLine);
+    }
+
+    public List<WebElement> getSearchResultsList() {
+        return this.waitForPresenceOfAllElements(SEARCH_RESULT_LIST_ITEM, "По заданному запросу ничего не найдено.", 15);
     }
 }

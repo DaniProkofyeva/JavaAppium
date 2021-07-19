@@ -324,4 +324,11 @@ public class MainPageObject {
                 throw new IllegalArgumentException("Cannot get type of locator. Locator: " + locator_with_type);
         }
     }
+
+    public List<WebElement> waitForPresenceOfAllElements(String locator, String errorMessage, long timeoutInSeconds) {
+        By by = this.getLocatorByString(locator);
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(String.format("\n  Внимание! %s\n", errorMessage));
+        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+    }
 }

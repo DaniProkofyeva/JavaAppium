@@ -4,6 +4,7 @@ import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
@@ -78,24 +79,29 @@ public class SearchTests extends CoreTestCase
     }
 
         @Test
-        public void testSearchForEachResults ()
-        {
-            SearchPageObject searchPageObject  = SearchPageObjectFactory.get(driver);
-            String search_line = "Java";
-            searchPageObject.initSearchInput();
-            searchPageObject.typeSearchLine(search_line);
-            List<WebElement> articleTitles = searchPageObject.waitForPresenceOfAllResults();
-            String attribute;
-            if (Platform.getInstance().isAndroid()) attribute = "text";
-            else if (Platform.getInstance().isMW()) attribute = "textContent";
-            else attribute = "name";
-            articleTitles.stream()
-                    .map(webElement -> webElement.getAttribute(attribute).toLowerCase())
-                    .forEachOrdered(articleTitle -> assertTrue(
-                            "One or more titles do not have expected search text",
-                            articleTitle.contains(search_line.toLowerCase())));
-        }
+        public void testSearchForEachResults () {
+            SearchPageObject searchPage = SearchPageObjectFactory.get(driver);
 
+            final String searchValue = "JAVA";
+            searchPage.searchByValue(searchValue);
+
+            List<WebElement> articleTitles = searchPage.getSearchResultsList();
+
+            for (int i = 0; i < articleTitles.size(); i++) {
+                final WebElement titleElement = articleTitles.get(i);
+                String articleTitle = "";
+                if (Platform.getInstance().isAndroid()) {
+                    articleTitle = titleElement.getAttribute("text").toLowerCase();
+                } else {
+                    Platform.getInstance().isMW();
+                    articleTitle = titleElement.getAttribute("textContent").toLowerCase();
+                }
+
+                Assert.assertTrue(
+                        String.format("\n  Error! In the title of the found article with the index [%d] missing search value '%s'.\n", i, searchValue),
+                        articleTitle.contains(searchValue.toLowerCase()));
+            }
+        }
         @Test
         public void testSearchForPlaceHolderText () {
             SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
