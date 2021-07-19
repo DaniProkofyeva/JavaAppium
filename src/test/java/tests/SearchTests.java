@@ -106,15 +106,15 @@ public class SearchTests extends CoreTestCase
         public void testSearchArticleByTitleAndDescription () {
             SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
             searchPageObject.initSearchInput();
-            searchPageObject.typeSearchLine("Resident Evil");
+            searchPageObject.typeSearchLine("Java");
             List<String> article_titles;
             List<String> article_descriptions;
             if (Platform.getInstance().isAndroid()) {
-                article_titles = Arrays.asList("Resident Evil", "Resident Evil (film series)", "Resident Evil 7: Biohazard");
-                article_descriptions = Arrays.asList("Media franchise", "Film series", "2017 survival horror video game");
+                article_titles = Arrays.asList("Java", "JavaScript", "Java (programming language)");
+                article_descriptions = Arrays.asList("Indonesian island", "High-level-programming language", "Object-oriented programming language");
             } else {
-                article_titles = Arrays.asList("Resident Evil", "Resident Evil 7: Biohazard", "Resident Evil Village");
-                article_descriptions = Arrays.asList("Video game and media franchise", "2017 video game", "2021 video game");
+                article_titles = Arrays.asList("Java", "Javanese people", "Java (programming language)");
+                article_descriptions = Arrays.asList("Indonesian island", "Ethnic group in Indonesia", "Object-oriented programming language");
             }
             Map<String, String> expected_results = searchPageObject.setExpectedMapOfArticlesWithTitleAndDescription(article_titles, article_descriptions);
             assertTrue("The count of articles less than expected", searchPageObject.getAmountOfFoundArticles() >= 3);

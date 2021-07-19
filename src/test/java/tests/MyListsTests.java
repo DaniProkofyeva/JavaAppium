@@ -35,6 +35,7 @@ public class MyListsTests extends CoreTestCase
         } else {
             articlePageObject.addArticleToMySavedList();
             AuthorizationPageObject auth = new AuthorizationPageObject(driver);
+            Thread.sleep(3000);
             auth.clickAuthButton();
             auth.enterLoginData(login, password);
             auth.submitForm();
@@ -52,7 +53,7 @@ public class MyListsTests extends CoreTestCase
     }
 
     @Test
-    public void testSaveTwoArticlesToMyListAndDeleteAny() {
+    public void testSaveTwoArticlesToMyListAndDeleteAny() throws InterruptedException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         String first_search_line = "Java";
@@ -66,6 +67,7 @@ public class MyListsTests extends CoreTestCase
         else {
             articlePageObject.addArticleToMySavedList();
             AuthorizationPageObject auth = new AuthorizationPageObject(driver);
+            Thread.sleep(3000);
             auth.clickAuthButton();
             auth.enterLoginData(login, password);
             auth.submitForm();
@@ -75,6 +77,7 @@ public class MyListsTests extends CoreTestCase
         String second_article_title;
         if (Platform.getInstance().isAndroid()) second_article_title = "Programming language";
         else second_article_title = "High-level programming language";
+        Thread.sleep(3000);
         searchPageObject.waitForClickSearchButton();
         String second_search_line = "JavaScript";
         searchPageObject.typeSearchLine(second_search_line);
