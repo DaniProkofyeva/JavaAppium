@@ -52,7 +52,7 @@ abstract public class SearchPageObject extends MainPageObject
     public void initSearchInput() {
         this.waitForElementAndClick(
                 SEARCH_INIT_ELEMENT,
-                "Cannot find and click search init element", 5);
+                "Cannot find and click search init element", 20);
         this.waitForElementPresent(SEARCH_INIT_ELEMENT,
                 "Cannot find search input after clicking search init element");
     }
@@ -62,7 +62,7 @@ abstract public class SearchPageObject extends MainPageObject
         this.waitForElementPresent(
                 SEARCH_CANCEL_BUTTON,
                 "Cannot find search cancel button",
-                5);
+                20);
     }
 
 
@@ -70,11 +70,11 @@ abstract public class SearchPageObject extends MainPageObject
         if (Platform.getInstance().isMW()) this.waitForElementNotPresent(
                 SEARCH_CLEAR_BUTTON,
                 "Search clear button is still present",
-                5);
+                20);
         else this.waitForElementNotPresent(
                 SEARCH_CANCEL_BUTTON,
                 "Search cancel button is still present",
-                5);
+                20);
     }
 
 
@@ -83,12 +83,12 @@ abstract public class SearchPageObject extends MainPageObject
             this.waitForElementAndClick(
                     SEARCH_BUTTON,
                     "Cannot find Search button",
-                    5
+                    20
             );
         this.waitForElementAndClick(
                 SEARCH_INIT_ELEMENT,
                 "Cannot find Search button",
-                5
+                20
         );
     }
 
@@ -97,7 +97,7 @@ abstract public class SearchPageObject extends MainPageObject
         this.waitForElementAndClick(
                 SEARCH_CANCEL_BUTTON,
                 "Cannot find and click search cancel button",
-                5
+                20
         );
     }
 
@@ -106,7 +106,7 @@ abstract public class SearchPageObject extends MainPageObject
         this.waitForElementAndClick(
                 SEARCH_CLEAR_BUTTON,
                 "Cannot find and click search cancel button",
-                5
+                20
         );
     }
 
@@ -115,7 +115,7 @@ abstract public class SearchPageObject extends MainPageObject
         this.waitForElementAndDoubleClick(
                 SEARCH_CANCEL_BUTTON,
                 "Cannot find and click search cancel button",
-                5
+                20
         );
     }
 
@@ -124,7 +124,7 @@ abstract public class SearchPageObject extends MainPageObject
         this.waitForElementAndSendKeys(
                 SEARCH_INPUT,
                 search_line,
-                "Cannot find and type into search input", 5);
+                "Cannot find and type into search input", 20);
     }
 
     public void waitForSearchResult(String substring) {
@@ -139,14 +139,14 @@ abstract public class SearchPageObject extends MainPageObject
         this.waitForElementAndClick(
                 search_result_xpath,
                 "Cannot find and click search result with substring " + substring,
-                10);
+                20);
     }
 
     public int getAmountOfFoundArticles() {
         this.waitForElementPresent(
                 SEARCH_RESULT_LIST_ITEM,
                 "Cannot find anything by the request",
-                15
+                20
         );
         return this.getAmountOfElements(SEARCH_RESULT_LIST_ITEM);
     }
@@ -155,7 +155,7 @@ abstract public class SearchPageObject extends MainPageObject
         this.waitForElementPresent(
                 SEARCH_EMPTY_RESULT_ELEMENT,
                 "Cannot find empty result element",
-                15
+                20
         );
     }
 
@@ -167,7 +167,7 @@ abstract public class SearchPageObject extends MainPageObject
         this.waitForElementPresent(
                 SEARCH_INIT_ELEMENT,
                 "Cannot find search input-field",
-                5
+                20
         );
         if (Platform.getInstance().isMW())
             this.assertElementHasPlaceHolder(
@@ -186,7 +186,7 @@ abstract public class SearchPageObject extends MainPageObject
                 SEARCH_RESULT_LIST_ITEM,
                 count_of_elements,
                 "The search results more than " + count_of_elements + " or isn't displayed",
-                5
+                20
         );
     }
 
@@ -194,7 +194,7 @@ abstract public class SearchPageObject extends MainPageObject
         this.waitForElementNotPresent(
                 SEARCH_RESULT_LIST_ITEM,
                 "The search results is still displayed",
-                5
+                20
         );
     }
 
@@ -202,7 +202,7 @@ abstract public class SearchPageObject extends MainPageObject
         return this.waitForPresenceOfAllElementsLocated(
                 SEARCH_RESULT_LIST_ELEMENT,
                 "Cannot find any result",
-                15);
+                20);
     }
 
     public void waitForNumberOfResultsMoreThan(int count_of_results) {
@@ -210,7 +210,7 @@ abstract public class SearchPageObject extends MainPageObject
                 SEARCH_RESULT_LIST_ITEM,
                 count_of_results,
                 "Count of results less than expected",
-                15);
+                20);
     }
 
     public void waitFotClickByArticleWithTitle(String article_title) {
@@ -218,7 +218,7 @@ abstract public class SearchPageObject extends MainPageObject
         this.waitForElementClickableAndClick(
                 article_title_xpath,
                 "Article with title not clickable",
-                5);
+                20);
     }
 
     public void waitForElementByTitleAndDescription(String article_title, String article_description) {
@@ -226,7 +226,7 @@ abstract public class SearchPageObject extends MainPageObject
         this.waitForElementPresent(
                 articleWithTitleAndDescriptionXpath,
                 "Cannot find article with title and description",
-                15
+                20
         );
     }
 

@@ -78,11 +78,6 @@ abstract public class ArticlePageObject extends MainPageObject {
                     "Cannot find the end of article",
                     40
             );
-        } else if (Platform.getInstance().isIOS()) {
-            this.swipeUpTillElementAppear(
-                    FOOTER_ELEMENT,
-                    "Cannot find the end of article",
-                    40);
         } else {
             this.scrollWebPageTillElementNotVisible(
                     FOOTER_ELEMENT,
@@ -196,7 +191,6 @@ abstract public class ArticlePageObject extends MainPageObject {
             );
         }
     }
-
 
     public void closeArticleAndReturnToTheMainPage() {
         this.waitForElementClickableAndClick(BACK_BUTTON, "Cannot find refresh button", 5);

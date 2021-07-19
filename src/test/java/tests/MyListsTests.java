@@ -52,57 +52,60 @@ public class MyListsTests extends CoreTestCase
     }
 
     @Test
-    public void testSaveTwoArticlesDeleteOne()
-    {
-        String name_of_folder = "Learning programming";
-        String first_search = "Java";
-        String first_search_substring = "bject-oriented programming language";
-        String second_search = "JavaScript";
-        String second_search_substring = "Programming language";
+    public void testSaveTwoArticlesToMyListAndDeleteAny() {
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
+        searchPageObject.initSearchInput();
+        String first_search_line = "Java";
+        searchPageObject.typeSearchLine(first_search_line);
+        searchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
-        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
-        SearchPageObject.initSearchInput();
-        SearchPageObject.typeSearchLine(first_search);
-        SearchPageObject.clickByArticleWithSubstring(first_search_substring);
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
+        articlePageObject.waitForTitleElement();
+        String first_article_title = articlePageObject.getArticleTitle();
+        if (Platform.getInstance().isAndroid()) articlePageObject.addArticleToMyList(name_of_folder);
+        else {
+            articlePageObject.addArticleToMySavedList();
+            AuthorizationPageObject auth = new AuthorizationPageObject(driver);
+            auth.clickAuthButton();
+            auth.enterLoginData(login, password);
+            auth.submitForm();
+            articlePageObject.waitForTitleElement();
+            assertEquals("Cannot find search article", first_article_title, articlePageObject.getArticleTitle());
+        }
+        String second_article_title;
+        if (Platform.getInstance().isAndroid()) second_article_title = "Programming language";
+        else second_article_title = "High-level programming language";
+        searchPageObject.waitForClickSearchButton();
+        String second_search_line = "JavaScript";
+        searchPageObject.typeSearchLine(second_search_line);
+        searchPageObject.clickByArticleWithSubstring(second_article_title);
+        articlePageObject.waitForTitleElement();
+        assertEquals("Actual title not equals expected", second_search_line, articlePageObject.getArticleTitle());
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
+        if (Platform.getInstance().isAndroid()) {
+            articlePageObject.addSecondArticleToMyList(name_of_folder);
+            articlePageObject.closeArticle();
+        } else {
+            articlePageObject.addArticleToMySavedList();
+            navigationUI.openNavigation();
+        }
+        navigationUI.clickMyLists();
 
-        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        ArticlePageObject.waitForTitleElement();
+        MyListsPageObject myListsPageObject = MyListsPageObjectFactory.get(driver);
+        if (Platform.getInstance().isAndroid()) myListsPageObject.openFolderByName(name_of_folder);
+        searchPageObject.waitForSearchResultsNotEmpty(1);
+        myListsPageObject.swipeByArticleToDelete(first_article_title);
+        if (Platform.getInstance().isAndroid()) {
+            searchPageObject.clickByArticleWithSubstring(second_article_title.toLowerCase());
+            articlePageObject.waitForTitleElement();
+            String actual_second_search_line = articlePageObject.getArticleTitle();
+            assertEquals("Actual title not equals expected", second_search_line, actual_second_search_line);
+        } else {
+            myListsPageObject.waitForArticleToDisappearByTitle(second_article_title);
+            myListsPageObject.openArticleBySubstring(second_search_line);
+            assertEquals("Cannot find search article", second_search_line, articlePageObject.getArticleTitle());
 
-        String first_article_title = ArticlePageObject.getArticleTitle();
-
-        ArticlePageObject.addArticleToMyList(name_of_folder);
-
-        SearchPageObject.clickSearchIcon();
-
-        SearchPageObject.typeSearchLine(second_search);
-        SearchPageObject.clickByArticleWithSubstring(second_search_substring);
-        ArticlePageObject.waitForTitleElement();
-
-        String second_article_title = ArticlePageObject.getArticleTitle();
-
-        ArticlePageObject.addArticleToExistingList(name_of_folder);
-
-        ArticlePageObject.closeArticle();
-
-        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
-        NavigationUI.clickMyList();
-
-        MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
-
-        MyListsPageObject.openFolderByName(name_of_folder);
-
-        MyListsPageObject.swipeByArticleToDelete(first_article_title);
-
-        MyListsPageObject.waitForArticleToDisappearByTitle(first_article_title);
-
-        MyListsPageObject.isArticlePresent(second_article_title);
-
-        MyListsPageObject.waitAndClickArticleByTitle(second_article_title);
-
-        assertEquals("Article title not equal saved exam", second_article_title, ArticlePageObject.getArticleTitle());
-
-
-
+            articlePageObject.waitForBannerElement(second_search_line);
+        }
     }
-
 }
