@@ -330,27 +330,4 @@ public class MainPageObject {
                 throw new IllegalArgumentException("Cannot get type of locator. Locator: " + locator_with_type);
         }
     }
-
-    public String takeScreenshot(String name) {
-        TakesScreenshot ts = (TakesScreenshot) this.driver;
-        File source = ts.getScreenshotAs(OutputType.FILE);
-        String path = System.getProperty("user.dir") + "/" + name + "_screenshot.png";
-        try {
-            FileUtils.copyFile(source, new File(path));
-            System.out.println("The screenshot was taken: " + path);
-        } catch (Exception e) {
-            System.out.println("Cannot take screenshot. Error: " + e.getMessage());
-        }
-        return path;
-    }
-
-    public static byte[] screenshot(String path) {
-        byte[] bytes = new byte[0];
-        try {
-            bytes = Files.readAllBytes(Paths.get(path));
-        } catch (IOException e) {
-            System.out.println("Cannot get bytes from screenshot. Error: " + e.getMessage());
-        }
-        return bytes;
-    }
 }
