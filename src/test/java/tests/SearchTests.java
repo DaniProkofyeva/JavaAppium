@@ -46,7 +46,7 @@ public class SearchTests extends CoreTestCase
         SearchPageObject.typeSearchLine(search_line);
         int amount_of_search_results = SearchPageObject.getAmountOfFoundArticles();
 
-        assertTrue(
+        Assert.assertTrue(
                 "We found too few results!",
                 amount_of_search_results > 0
         );
@@ -123,7 +123,7 @@ public class SearchTests extends CoreTestCase
                 article_descriptions = Arrays.asList("Indonesian island", "Ethnic group in Indonesia", "Object-oriented programming language");
             }
             Map<String, String> expected_results = searchPageObject.setExpectedMapOfArticlesWithTitleAndDescription(article_titles, article_descriptions);
-            assertTrue("The count of articles less than expected", searchPageObject.getAmountOfFoundArticles() >= 3);
+            Assert.assertTrue("The count of articles less than expected", searchPageObject.getAmountOfFoundArticles() >= 3);
             expected_results.forEach(searchPageObject::waitForElementByTitleAndDescription);
 
         }

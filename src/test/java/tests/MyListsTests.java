@@ -6,6 +6,7 @@ import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListsPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
@@ -41,7 +42,7 @@ public class MyListsTests extends CoreTestCase
             auth.submitForm();
             articlePageObject.waitForTitleElement();
 
-            assertEquals("Cannot find search article", article_title, articlePageObject.getArticleTitle());
+            Assert.assertEquals("Cannot find search article", article_title, articlePageObject.getArticleTitle());
             navigationUI.openNavigation();
         }
         navigationUI.clickMyLists();
@@ -72,7 +73,7 @@ public class MyListsTests extends CoreTestCase
             auth.enterLoginData(login, password);
             auth.submitForm();
             articlePageObject.waitForTitleElement();
-            assertEquals("Cannot find search article", first_article_title, articlePageObject.getArticleTitle());
+            Assert.assertEquals("Cannot find search article", first_article_title, articlePageObject.getArticleTitle());
         }
         String second_article_title;
         if (Platform.getInstance().isAndroid()) second_article_title = "Programming language";
@@ -83,7 +84,7 @@ public class MyListsTests extends CoreTestCase
         searchPageObject.typeSearchLine(second_search_line);
         searchPageObject.clickByArticleWithSubstring(second_article_title);
         articlePageObject.waitForTitleElement();
-        assertEquals("Actual title not equals expected", second_search_line, articlePageObject.getArticleTitle());
+        Assert.assertEquals("Actual title not equals expected", second_search_line, articlePageObject.getArticleTitle());
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
         if (Platform.getInstance().isAndroid()) {
             articlePageObject.addSecondArticleToMyList(name_of_folder);
@@ -102,11 +103,11 @@ public class MyListsTests extends CoreTestCase
             searchPageObject.clickByArticleWithSubstring(second_article_title.toLowerCase());
             articlePageObject.waitForTitleElement();
             String actual_second_search_line = articlePageObject.getArticleTitle();
-            assertEquals("Actual title not equals expected", second_search_line, actual_second_search_line);
+            Assert.assertEquals("Actual title not equals expected", second_search_line, actual_second_search_line);
         } else {
             myListsPageObject.waitForArticleToDisappearByTitle(second_article_title);
             myListsPageObject.openArticleBySubstring(second_search_line);
-            assertEquals("Cannot find search article", second_search_line, articlePageObject.getArticleTitle());
+            Assert.assertEquals("Cannot find search article", second_search_line, articlePageObject.getArticleTitle());
 
             articlePageObject.waitForBannerElement(second_search_line);
         }
