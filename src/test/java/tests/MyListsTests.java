@@ -1,4 +1,6 @@
 package tests;
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.*;
@@ -11,6 +13,7 @@ import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
 
+@Epic("Tests for my lists")
 public class MyListsTests extends CoreTestCase
 {
     private static final String name_of_folder = "Learning programming";
@@ -19,6 +22,11 @@ public class MyListsTests extends CoreTestCase
             password = "&UJM,ki8";
 
     @Test
+    @Features(value = {@Feature(value = "Search"), @Feature(value = "Article"),  @Feature(value = "MyLists"),  @Feature(value = "Navigation")})
+    @DisplayName("Save the first found article to my new list")
+    @Description("Add the first found article to the new reading list and then remove it from the list")
+    @Step("Starting test 'testSaveFirstArticleToMyList'")
+    @Severity(value = SeverityLevel.BLOCKER)
     public void testSaveFirstArticleToMyList() throws InterruptedException {
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
@@ -54,6 +62,11 @@ public class MyListsTests extends CoreTestCase
     }
 
     @Test
+    @Features(value = {@Feature(value = "Search"), @Feature(value = "Article"),  @Feature(value = "MyLists"),  @Feature(value = "Navigation")})
+    @DisplayName("Delete one of two articles from the reading list")
+    @Description("Add two articles to the reading list and then check remove one article from two saved")
+    @Step("Starting test 'testSaveTwoArticlesToMyListAndDeleteAny'")
+    @Severity(value = SeverityLevel.BLOCKER)
     public void testSaveTwoArticlesToMyListAndDeleteAny() throws InterruptedException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();

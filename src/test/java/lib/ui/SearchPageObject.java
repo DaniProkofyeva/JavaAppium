@@ -1,4 +1,5 @@
 package lib.ui;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -28,23 +29,24 @@ abstract public class SearchPageObject extends MainPageObject
     }
 
     /* TEMPLATES METHODS */
+    @Step("Open Wikipedia URL for Mobile Web (this method does nothing for Android and iOS")
     private static String getResultSearchElement(String substring) {
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
     }
 
-
+    @Step("Get the result search by title '{articleTitle}'")
     private static String getResultSearchElementTitle(String article_title) {
         return SEARCH_RESULT_TITLE_TPL.replace("{TITLE}", article_title);
     }
 
-
+    @Step("Waiting for the article with title '{article_title}' and description '{article_description}' to appear")
     private static String getArticleWithTitleAndDescription(String article_title, String article_description) {
         return SEARCH_RESULT_BY_SUBSTRING_TITLE_AND_DESCRIPTION_TPL.replace("{ARTICLE_TITLE}", article_title)
                 .replace("{ARTICLE_DESCRIPTION}", article_description);
     }
     /* TEMPLATES METHODS */
 
-
+    @Step("Initializing the search field")
     public void initSearchInput() {
         this.waitForElementAndClick(
                 SEARCH_INIT_ELEMENT,
@@ -53,7 +55,7 @@ abstract public class SearchPageObject extends MainPageObject
                 "Cannot find search input after clicking search init element");
     }
 
-
+    @Step("Waiting for button to cancel search result")
     public void waitForCancelButtonToAppear() {
         this.waitForElementPresent(
                 SEARCH_CANCEL_BUTTON,
@@ -61,7 +63,7 @@ abstract public class SearchPageObject extends MainPageObject
                 20);
     }
 
-
+    @Step("Waiting for search cancel button to disappear")
     public void waitForCancelButtonToDisappear() {
         if (Platform.getInstance().isMW()) this.waitForElementNotPresent(
                 SEARCH_CLEAR_BUTTON,
@@ -73,7 +75,7 @@ abstract public class SearchPageObject extends MainPageObject
                 20);
     }
 
-
+    @Step("Clicking button to check search result")
     public void waitForClickSearchButton() {
         if (Platform.getInstance().isAndroid()) {
 
@@ -91,7 +93,7 @@ abstract public class SearchPageObject extends MainPageObject
         }
     }
 
-
+    @Step("Clicking button to cancel search result")
     public void clickCancelSearch() {
         this.waitForElementAndClick(
                 SEARCH_CANCEL_BUTTON,
@@ -100,7 +102,7 @@ abstract public class SearchPageObject extends MainPageObject
         );
     }
 
-
+    @Step("Clicking button to clean search result")
     public void clickClearSearch() {
         this.waitForElementAndClick(
                 SEARCH_CLEAR_BUTTON,
@@ -109,7 +111,7 @@ abstract public class SearchPageObject extends MainPageObject
         );
     }
 
-
+    @Step("Double clicking button to cancel search result")
     public void doubleClickCancelSearch() {
         this.waitForElementAndDoubleClick(
                 SEARCH_CANCEL_BUTTON,
@@ -118,7 +120,7 @@ abstract public class SearchPageObject extends MainPageObject
         );
     }
 
-
+    @Step("Typing '{search_line}' to the search line")
     public void typeSearchLine(String search_line) {
         this.waitForElementAndSendKeys(
                 SEARCH_INPUT,
@@ -126,6 +128,7 @@ abstract public class SearchPageObject extends MainPageObject
                 "Cannot find and type into search input", 20);
     }
 
+    @Step("Waiting for search result")
     public void waitForSearchResult(String substring) {
         String search_result_xpath = getResultSearchElement(substring);
         this.waitForElementPresent(
@@ -133,6 +136,7 @@ abstract public class SearchPageObject extends MainPageObject
                 "Cannot find search result with substring " + substring);
     }
 
+    @Step("Waiting for search result and select an article by substring in article title")
     public void clickByArticleWithSubstring(String substring) {
         String search_result_xpath = getResultSearchElement(substring);
         this.waitForElementAndClick(
@@ -141,6 +145,7 @@ abstract public class SearchPageObject extends MainPageObject
                 20);
     }
 
+    @Step("Getting amount of found articles")
     public int getAmountOfFoundArticles() {
         this.waitForElementPresent(
                 SEARCH_RESULT_LIST_ITEM,
@@ -150,6 +155,7 @@ abstract public class SearchPageObject extends MainPageObject
         return this.getAmountOfElements(SEARCH_RESULT_LIST_ITEM);
     }
 
+    @Step("Waiting for empty result label")
     public void waitForEmptyResultsLabel() {
         this.waitForElementPresent(
                 SEARCH_EMPTY_RESULT_ELEMENT,
@@ -158,10 +164,12 @@ abstract public class SearchPageObject extends MainPageObject
         );
     }
 
+    @Step("Making sure there are no results for the search")
     public void assertThereIsNoResultOfSearch() {
         this.assertElementNotPresent(SEARCH_RESULT_LIST, "We supposed not to find any results");
     }
 
+    @Step("Asserting that the search placeholder has text '{placeholder}'")
     public void assertSearchPlaceHolderText(String placeholder) {
         this.waitForElementPresent(
                 SEARCH_INIT_ELEMENT,
@@ -180,6 +188,7 @@ abstract public class SearchPageObject extends MainPageObject
         );
     }
 
+    @Step("Waiting for search result not empty")
     public void waitForSearchResultsNotEmpty(int count_of_elements) {
         this.waitForNumberOfElementsToBeMoreThan(
                 SEARCH_RESULT_LIST_ITEM,
@@ -189,6 +198,7 @@ abstract public class SearchPageObject extends MainPageObject
         );
     }
 
+    @Step("Waiting for search result not displayed")
     public void waitForSearchResultsNotDisplayed() {
         this.waitForElementNotPresent(
                 SEARCH_RESULT_LIST_ITEM,
@@ -197,6 +207,7 @@ abstract public class SearchPageObject extends MainPageObject
         );
     }
 
+    @Step("Waiting for search results list is present on the page")
     public List<WebElement> waitForPresenceOfAllResults() {
         return this.waitForPresenceOfAllElementsLocated(
                 SEARCH_RESULT_LIST_ELEMENT,
@@ -204,6 +215,7 @@ abstract public class SearchPageObject extends MainPageObject
                 20);
     }
 
+    @Step("Waiting for search results count more than: '{count_of_results}'")
     public void waitForNumberOfResultsMoreThan(int count_of_results) {
         this.waitForNumberOfElementsToBeMoreThan(
                 SEARCH_RESULT_LIST_ITEM,
@@ -212,6 +224,7 @@ abstract public class SearchPageObject extends MainPageObject
                 20);
     }
 
+    @Step("Waiting for clicking by article with substring: '{article_title}'")
     public void waitFotClickByArticleWithTitle(String article_title) {
         String article_title_xpath = getResultSearchElementTitle(article_title);
         this.waitForElementClickableAndClick(
@@ -220,6 +233,7 @@ abstract public class SearchPageObject extends MainPageObject
                 20);
     }
 
+    @Step("Waiting for the article with title '{article_title}' and description '{article_description}'")
     public void waitForElementByTitleAndDescription(String article_title, String article_description) {
         String articleWithTitleAndDescriptionXpath = getArticleWithTitleAndDescription(article_title, article_description);
         this.waitForElementPresent(
@@ -229,15 +243,18 @@ abstract public class SearchPageObject extends MainPageObject
         );
     }
 
+    @Step("Making map of results from list of article titles and list of article descriptions")
     public Map<String, String> setExpectedMapOfArticlesWithTitleAndDescription(List<String> article_titles, List<String> article_descriptions) {
         return IntStream.range(0, article_titles.size()).boxed().collect(Collectors.toMap(article_titles::get, article_descriptions::get, (a, b) -> b));
     }
 
+    @Step("Init and type in SearchLine")
     public void searchByValue(String searchLine) {
         initSearchInput();
         typeSearchLine(searchLine);
     }
 
+    @Step("Trying to get results of search")
     public List<WebElement> getSearchResultsList() {
         return this.waitForPresenceOfAllElements(SEARCH_RESULT_LIST_ITEM, "По заданному запросу ничего не найдено.", 15);
     }
